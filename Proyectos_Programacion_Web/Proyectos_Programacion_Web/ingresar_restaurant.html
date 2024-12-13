@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicio - Restaurante</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            margin: 0;
+        }
+        .main-text {
+            font-size: 4rem;
+            font-weight: bold;
+            text-align: center;
+            color: #343a40;
+            margin-top: 20px;
+        }
+        .user-table {
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Barra de navegación -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Restaurante</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#">Inicio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" id="cerrarSesion">Cerrar Sesión</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div>
+        <p class="main-text">RESTAURANTE HTML</p>
+    </div>
+
+    <!-- Sección para mostrar usuarios -->
+    <div class="container user-table">
+        <h4>Usuarios Registrados</h4>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Nombre Completo</th>
+                    <th>Nombre de Usuario</th>
+                </tr>
+            </thead>
+            <tbody id="listaUsuarios"></tbody>
+        </table>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Función para cerrar sesión
+        document.getElementById("cerrarSesion").addEventListener("click", function(event) {
+            event.preventDefault(); // Evita el comportamiento predeterminado del enlace
+            window.location.href = "inicio_sesion_restaurante.html"; // Redirige al inicio de sesión
+        });
+
+        // Función para cargar y mostrar los usuarios
+        function cargarUsuarios() {
+            const usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
+            const listaUsuarios = document.getElementById("listaUsuarios");
+            listaUsuarios.innerHTML = ""; // Limpiar la tabla antes de agregar nuevos elementos
+
+            if (usuarios.length === 0) {
+                const row = document.createElement("tr");
+                const cell = document.createElement("td");
+                cell.colSpan = 2; // Hacer que la celda ocupe dos columnas
+                cell.textContent = "No hay usuarios registrados.";
+                row.appendChild(cell);
+                listaUsuarios.appendChild(row);
+                return;
+            }
+
+            usuarios.forEach(usuario => {
+                const row = document.createElement("tr");
+                const nombreCell = document.createElement("td");
+                const usuarioCell = document.createElement("td");
+
+                nombreCell.textContent = usuario.nombre; // Nombre completo
+                usuarioCell.textContent = usuario.usuario; // Nombre de usuario
+
+                row.appendChild(nombreCell);
+                row.appendChild(usuarioCell);
+                listaUsuarios.appendChild(row);
+            });
+        }
+
+        // Cargar la lista de usuarios al cargar la página
+        window.onload = cargarUsuarios;
+    </script>
+</body>
+</html>
